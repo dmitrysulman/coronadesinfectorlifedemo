@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -37,5 +38,18 @@ public class ApplicationContext {
         }
 
         return t;
+    }
+
+    public void initSingletons() {
+        Set<Class<?>> classes = config.getScanner().getTypesAnnotatedWith(Singleton.class);
+        classes.removeIf(aClass -> aClass.isAnnotationPresent(Lazy.class));
+        for (Class<?> aClass : classes) {
+            Class<?>[] interfaces = aClass.getInterfaces();
+            if (interfaces.length == 0) {
+                cache.put(aClass, factory.createObject(aClass));
+            } else if (interfaces.length == 1) {
+                cache.put(interfaces[0], factory.createObject(aClass));
+            }
+        }
     }
 }

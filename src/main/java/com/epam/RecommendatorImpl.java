@@ -4,6 +4,8 @@ package com.epam;
  * @author Evgeny Borisov
  */
 @Singleton
+@Lazy
+@Deprecated
 public class RecommendatorImpl implements Recommendator {
     @InjectProperty("wisky")
     private String alcohol;

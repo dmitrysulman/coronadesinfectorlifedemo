@@ -12,10 +12,12 @@ public class PolicemanImpl implements Policeman {
 
     @PostConstruct
     public void init() {
+        System.out.println("policeman was created");
         System.out.println(recommendator.getClass());
     }
 
     @Override
+    @Deprecated
     public void makePeopleLeaveRoom() {
         System.out.println("пиф паф, бах бах, кыш, кыш!");
     }
